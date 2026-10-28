@@ -1,0 +1,10 @@
+dist/
+node_modules/
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# cross-review output
+.review/
