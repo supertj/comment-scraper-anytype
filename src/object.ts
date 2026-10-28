@@ -144,12 +144,20 @@ function bodyLines(record: ExportRecord): string[] {
  * The text as a plain code block it can't break out of: the fence is longer than any run of
  * backticks inside, and it names no language, so Anytype keeps it as plain text. The cost is
  * that Reddit's own formatting (bold, lists, links) shows as it was typed.
+ *
+ * Anytype turns any block whose text starts with "[ ]", "[]" or "[x]" into a checkbox and drops
+ * those characters, code blocks included. Text that could start that way gets an empty first
+ * line, so the block starts with a line break instead. The check runs on the text as Anytype
+ * sees it, after it has removed zero-width characters, and catches every "[" to also cover a
+ * tab or no-break space Anytype would turn into the space in "[ ]".
  */
 export function fencedText(text: string): string[] {
 	let longestRun = 0;
 	for (const run of text.match(/`+/g) ?? []) longestRun = Math.max(longestRun, run.length);
 	const fence = '`'.repeat(Math.max(3, longestRun + 1));
-	return [fence, ...text.split('\n'), fence];
+	const lines = text.split('\n');
+	if (/^[\u200B\u200C\u2060\uFEFF\r]*\[/.test(text)) lines.unshift('');
+	return [fence, ...lines, fence];
 }
 
 /** "2026-09-21 14:13 UTC", or null when the value isn't a date. Kept in UTC so it reads the same in every time zone. */

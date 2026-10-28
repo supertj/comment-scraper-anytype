@@ -222,6 +222,15 @@ describe('helpers', () => {
 		expect(fencedText('plain')).toEqual(['```', 'plain', '```']);
 	});
 
+	it('starts text that Anytype would turn into a checkbox on a new line', () => {
+		expect(fencedText('[x] done')).toEqual(['```', '', '[x] done', '```']);
+		expect(fencedText('[ ] todo')).toEqual(['```', '', '[ ] todo', '```']);
+		expect(fencedText('\u200B[]')).toEqual(['```', '', '\u200B[]', '```']);
+		expect(fencedText('[\t] tab')).toEqual(['```', '', '[\t] tab', '```']);
+		expect(fencedText(' [x] indented')).toEqual(['```', ' [x] indented', '```']);
+		expect(fencedText('a\n[x] later')).toEqual(['```', 'a', '[x] later', '```']);
+	});
+
 	it('formats only ISO 8601 times', () => {
 		expect(formatUtc('2026-09-21T14:13:59.123Z')).toBe('2026-09-21 14:13 UTC');
 		expect(formatUtc('2026-09-21T16:13:00+02:00')).toBe('2026-09-21 14:13 UTC');

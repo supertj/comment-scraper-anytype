@@ -10,11 +10,16 @@ A small command-line tool that imports Reddit and Hacker News threads you export
 - Node.js 20 or newer.
 - An Anytype API key. In Anytype, open **Settings → API Keys**, click **Create new**, give it a name you'll recognise (for example "Comment Scraper") and copy the key.
 
-Put the key in an environment variable rather than on the command line, so it doesn't end up in your shell history. One way is a file only you can read:
+The tool reads the key from the `ANYTYPE_API_KEY` environment variable. To keep it out of your shell history, put it in a file only you can read:
 
 ```sh
-printf 'export ANYTYPE_API_KEY=%s\n' 'paste-the-key-here' > ~/.anytype-api-key
+touch ~/.anytype-api-key
 chmod 600 ~/.anytype-api-key
+```
+
+Open `~/.anytype-api-key` in a text editor, add the line `export ANYTYPE_API_KEY='your-key'` with your key in it and save. Then load it in the terminal where you run the tool:
+
+```sh
 . ~/.anytype-api-key
 ```
 
@@ -92,6 +97,8 @@ The tool reads only the files you name. It talks only to the Anytype API on your
 Anytype allows bursts of 60 API requests, then one a second. Each thread is one request, so a large batch slows down after the first 60 threads. When Anytype says to wait, the tool waits and tries again.
 
 ## Building from source
+
+The tool runs on Node.js 20, but building it and running the tests needs Node.js 22.12 or newer, because the test runner doesn't support Node 20.
 
 ```sh
 npm install
