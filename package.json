@@ -1,0 +1,40 @@
+{
+	"name": "comment-scraper-anytype",
+	"version": "1.0.0",
+	"description": "Import Reddit and Hacker News threads exported by Comment Scraper into Anytype through its local API.",
+	"type": "module",
+	"bin": {
+		"comment-scraper-anytype": "dist/cli.js"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc --noEmit && esbuild src/bin.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/cli.js --banner:js='#!/usr/bin/env node'",
+		"test": "vitest run",
+		"prepublishOnly": "npm run build && npm test"
+	},
+	"engines": {
+		"node": ">=20"
+	},
+	"keywords": [
+		"anytype",
+		"comment-scraper",
+		"reddit",
+		"hacker-news",
+		"import"
+	],
+	"homepage": "https://comment-scraper.com/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/supertj/comment-scraper-anytype.git"
+	},
+	"author": "Super Lede",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^22.15.17",
+		"esbuild": "0.28.2",
+		"typescript": "^5.8.3",
+		"vitest": "^5.0.2"
+	}
+}
