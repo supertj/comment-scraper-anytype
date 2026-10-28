@@ -94,7 +94,7 @@ Anytype turns the body into blocks with its Markdown importer. In plain Markdown
 
 The tool reads only the files you name. It talks only to the Anytype API on your computer: it lists your spaces, reads the property list of the space you import into, and creates one object per thread. It doesn't update or delete anything.
 
-Anytype allows bursts of 60 API requests, then one a second. Each thread is one request, so a large batch slows down after the first 60 threads. When Anytype says to wait, the tool waits and tries again.
+Anytype allows bursts of 60 API requests, then one a second. Each thread takes one request, plus a few at the start to list your spaces and the space's properties, so a large batch slows down a little before the 60th thread. When Anytype says to wait, the tool waits and tries again.
 
 ## Building from source
 

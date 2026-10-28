@@ -227,6 +227,7 @@ describe('helpers', () => {
 		expect(fencedText('[ ] todo')).toEqual(['```', '', '[ ] todo', '```']);
 		expect(fencedText('\u200B[]')).toEqual(['```', '', '\u200B[]', '```']);
 		expect(fencedText('[\t] tab')).toEqual(['```', '', '[\t] tab', '```']);
+		expect(fencedText('\uE000x\uE001 done')).toEqual(['```', '', '\uE000x\uE001 done', '```']);
 		expect(fencedText(' [x] indented')).toEqual(['```', ' [x] indented', '```']);
 		expect(fencedText('a\n[x] later')).toEqual(['```', 'a', '[x] later', '```']);
 	});

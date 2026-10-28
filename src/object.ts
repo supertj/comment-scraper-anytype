@@ -149,14 +149,15 @@ function bodyLines(record: ExportRecord): string[] {
  * those characters, code blocks included. Text that could start that way gets an empty first
  * line, so the block starts with a line break instead. The check runs on the text as Anytype
  * sees it, after it has removed zero-width characters, and catches every "[" to also cover a
- * tab or no-break space Anytype would turn into the space in "[ ]".
+ * tab or no-break space Anytype would turn into the space in "[ ]". Anytype also turns the
+ * private-use character U+E000 into "[" inside code blocks, so that counts as one too.
  */
 export function fencedText(text: string): string[] {
 	let longestRun = 0;
 	for (const run of text.match(/`+/g) ?? []) longestRun = Math.max(longestRun, run.length);
 	const fence = '`'.repeat(Math.max(3, longestRun + 1));
 	const lines = text.split('\n');
-	if (/^[\u200B\u200C\u2060\uFEFF\r]*\[/.test(text)) lines.unshift('');
+	if (/^[\u200B\u200C\u2060\uFEFF\r]*[[\uE000]/.test(text)) lines.unshift('');
 	return [fence, ...lines, fence];
 }
 
